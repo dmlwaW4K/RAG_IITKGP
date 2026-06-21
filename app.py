@@ -13,10 +13,13 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.documents import Document
 
-# ── 1. Config ────────────────────────────────────────────────────────────────
-os.environ["GOOGLE_API_KEY"] = "GOOGLE_API_KEY"
-#GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
-
+# 1. Setup API Key - Securely
+if "GOOGLE_API_KEY" in st.secrets:
+    os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
+    GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+else:
+    st.error("API Key not found in Streamlit secrets!")
+    st.stop()
 # Tesseract path for Windows — adjust if installed elsewhere
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
